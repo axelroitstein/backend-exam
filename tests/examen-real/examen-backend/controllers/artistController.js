@@ -14,7 +14,7 @@ export const artistController = () => {
           nationality
         }
       })
-      res
+      return res
         .status(httpStatus.CREATED)
         .json({ success: true, message: 'Artist successfully created' })
     } catch (error) {
@@ -31,7 +31,7 @@ export const artistController = () => {
           deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(artists)
+      return res.status(httpStatus.OK).json(artists)
     } catch (error) {
       next(error)
     } finally {
@@ -42,12 +42,13 @@ export const artistController = () => {
   const getArtistById = async (req, res, next) => {
     try {
       const { id } = req.params
-      const artist = await prisma.artists.findUnique({
+      const artist = await prisma.artists.findFirst({
         where: {
-          id: Number(id)
+          id: Number(id),
+          deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(artist)
+      return res.status(httpStatus.OK).json(artist)
     } catch (error) {
       next(error)
     } finally {
@@ -68,7 +69,7 @@ export const artistController = () => {
           nationality
         }
       })
-      res
+      return res
         .status(httpStatus.OK)
         .json({ success: true, message: 'Artist successfully updated' })
     } catch (error) {
@@ -87,7 +88,7 @@ export const artistController = () => {
           id: Number(id)
         }
       })
-      res
+      return res
         .status(httpStatus.OK)
         .json({ success: true, message: 'Artist successfully deleted' })
     } catch (error) {

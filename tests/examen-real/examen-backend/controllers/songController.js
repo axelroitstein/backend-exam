@@ -15,7 +15,7 @@ export const songController = () => {
           duration
         }
       })
-      res
+      return res
         .status(httpStatus.CREATED)
         .json({ success: true, message: 'Song successfully created' })
     } catch (error) {
@@ -32,7 +32,7 @@ export const songController = () => {
           deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(songs)
+      return res.status(httpStatus.OK).json(songs)
     } catch (error) {
       next(error)
     } finally {
@@ -43,12 +43,13 @@ export const songController = () => {
   const getSongById = async (req, res, next) => {
     try {
       const { id } = req.params
-      const song = await prisma.songs.findUnique({
+      const song = await prisma.songs.findFirst({
         where: {
-          id: Number(id)
+          id: Number(id),
+          deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(song)
+      return res.status(httpStatus.OK).json(song)
     } catch (error) {
       next(error)
     } finally {
@@ -70,7 +71,7 @@ export const songController = () => {
           duration
         }
       })
-      res
+      return res
         .status(httpStatus.OK)
         .json({ success: true, message: 'Song successfully updated' })
     } catch (error) {
@@ -89,7 +90,7 @@ export const songController = () => {
           id: Number(id)
         }
       })
-      res
+      return res
         .status(httpStatus.OK)
         .json({ success: true, message: 'Song successfully deleted' })
     } catch (error) {

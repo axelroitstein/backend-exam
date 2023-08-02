@@ -14,9 +14,10 @@ const app = express()
 
 app.use(express.json())
 
-app.use('/api', userRoutes, songRoutes, artistRoutes, albumRoutes)
+app.use('/api', userRoutes(), songRoutes(), artistRoutes(), albumRoutes())
 
 app.use(errorHandler)
+
 app.listen(PORT, () => {
   console.log(`Application listening on port ${PORT}!`)
 })

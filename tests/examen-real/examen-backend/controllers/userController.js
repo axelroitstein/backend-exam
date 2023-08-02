@@ -17,7 +17,7 @@ export const userController = () => {
           birthday: new Date(birthday)
         }
       })
-      res.status(httpStatus.CREATED).json({ success: true, message: 'User successfully created' })
+      return res.status(httpStatus.CREATED).json({ success: true, message: 'User successfully created' })
     } catch (error) {
       next(error)
     } finally {
@@ -32,7 +32,7 @@ export const userController = () => {
           deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(users)
+      return res.status(httpStatus.OK).json(users)
     } catch (error) {
       next(error)
     } finally {
@@ -43,12 +43,13 @@ export const userController = () => {
   const getUserById = async (req, res, next) => {
     try {
       const { id } = req.params
-      const user = await prisma.users.findUnique({
+      const user = await prisma.users.findFirst({
         where: {
-          id: Number(id)
+          id: Number(id),
+          deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(user)
+      return res.status(httpStatus.OK).json(user)
     } catch (error) {
       next(error)
     } finally {
@@ -72,7 +73,7 @@ export const userController = () => {
           birthday
         }
       })
-      res.status(httpStatus.OK).json({ success: true, message: 'User successfully updated' })
+      return res.status(httpStatus.OK).json({ success: true, message: 'User successfully updated' })
     } catch (error) {
       next(error)
     } finally {
@@ -90,7 +91,7 @@ export const userController = () => {
           id: Number(id)
         }
       })
-      res.status(httpStatus.OK).json({ success: true, message: 'User successfully deleted' })
+      return res.status(httpStatus.OK).json({ success: true, message: 'User successfully deleted' })
     } catch (error) {
       next(error)
     } finally {

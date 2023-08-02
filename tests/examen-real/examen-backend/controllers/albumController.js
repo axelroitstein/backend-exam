@@ -14,7 +14,7 @@ export const albumController = () => {
           releaseDate
         }
       })
-      res
+      return res
         .status(httpStatus.CREATED)
         .json({ success: true, message: 'Album successfully created' })
     } catch (error) {
@@ -31,7 +31,7 @@ export const albumController = () => {
           deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(albums)
+      return res.status(httpStatus.OK).json(albums)
     } catch (error) {
       next(error)
     } finally {
@@ -42,12 +42,13 @@ export const albumController = () => {
   const getAlbumById = async (req, res, next) => {
     try {
       const { id } = req.params
-      const album = await prisma.albums.findUnique({
+      const album = await prisma.albums.findFirst({
         where: {
-          id: Number(id)
+          id: Number(id),
+          deletedAt: null
         }
       })
-      res.status(httpStatus.OK).json(album)
+      return res.status(httpStatus.OK).json(album)
     } catch (error) {
       next(error)
     } finally {
@@ -68,7 +69,7 @@ export const albumController = () => {
           releaseDate
         }
       })
-      res
+      return res
         .status(httpStatus.OK)
         .json({ success: true, message: 'Album successfully updated' })
     } catch (error) {
@@ -87,7 +88,7 @@ export const albumController = () => {
           id: Number(id)
         }
       })
-      res
+      return res
         .status(httpStatus.OK)
         .json({ success: true, message: 'Album successfully deleted' })
     } catch (error) {
