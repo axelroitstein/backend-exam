@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { userController } from '../controllers/userController.js'
-import { userValidation } from '../middlewares/validations.js'
+import { userValidation, userParamsValidation } from '../middlewares/validations.js'
 
 export const userRoutes = () => {
   const userRouter = Router()
@@ -12,7 +12,7 @@ export const userRoutes = () => {
 
   userRouter.route('/users/:id')
     .get(getUserById)
-    .put(updateUser)
+    .put(userParamsValidation, userValidation, updateUser)
     .delete(deleteUser)
 
   return userRouter

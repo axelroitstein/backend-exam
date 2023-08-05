@@ -1,6 +1,7 @@
 import httpStatus from '../helpers/httpStatus.js'
 import { PrismaClient } from '@prisma/client'
 import addSoftDelete from '../middlewares/softDelete.js'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -8,12 +9,14 @@ export const userController = () => {
   const createUser = async (req, res, next) => {
     try {
       const { firstName, lastName, email, password, birthday } = req.body
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(password, salt)
       await prisma.users.create({
         data: {
           firstName,
           lastName,
           email,
-          password,
+          password: hashedPassword,
           birthday: new Date(birthday)
         }
       })
@@ -61,6 +64,8 @@ export const userController = () => {
     try {
       const { id } = req.params
       const { firstName, lastName, email, password, birthday } = req.body
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(password, salt)
       await prisma.users.update({
         where: {
           id: Number(id)
@@ -69,8 +74,8 @@ export const userController = () => {
           firstName,
           lastName,
           email,
-          password,
-          birthday
+          password: hashedPassword,
+          birthday: new Date(birthday)
         }
       })
       return res.status(httpStatus.OK).json({ success: true, message: 'User successfully updated' })
