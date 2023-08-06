@@ -6,15 +6,19 @@ import { songRoutes } from './routes/songRouter.js'
 import { artistRoutes } from './routes/artistRouter.js'
 import { albumRoutes } from './routes/albumRouter.js'
 import { authRoutes } from './routes/authRouter.js'
-import cors from 'cors'
-
+import { expressjwt as jwt } from 'express-jwt'
 dotenv.config()
 
 const PORT = process.env.PORT || 3000
 
 const app = express()
 
-app.use(cors())
+app.use(
+  jwt({
+    secret: process.env.SECRET_KEY,
+    algorithms: ['HS256']
+  }).unless({ path: ['/api/auth/login', '/api/auth/register', '/api/auth/refresh'] })
+)
 
 app.use(express.json())
 

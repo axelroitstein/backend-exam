@@ -1,7 +1,6 @@
 import httpStatus from '../helpers/httpStatus.js'
 import { PrismaClient } from '@prisma/client'
 import addSoftDelete from '../middlewares/softDelete.js'
-
 const prisma = new PrismaClient()
 
 export const songController = () => {
@@ -30,6 +29,10 @@ export const songController = () => {
       const songs = await prisma.songs.findMany({
         where: {
           deletedAt: null
+        },
+        include: {
+          albums: true,
+          userFav: true
         }
       })
       return res.status(httpStatus.OK).json(songs)

@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { albumController } from '../controllers/albumController.js'
+import { albumValidation, albumParamsValidation } from '../middlewares/validations.js'
+import { auth } from '../middlewares/roleAuth.js'
 
 export const albumRoutes = () => {
   const albumRouter = Router()
@@ -7,12 +9,12 @@ export const albumRoutes = () => {
 
   albumRouter.route('/artists')
     .get(getAlbums)
-    .post(createAlbum)
+    .post(albumValidation, auth, createAlbum)
 
   albumRouter.route('/songs/:id')
     .get(getAlbumById)
-    .put(updateAlbum)
-    .delete(deleteAlbum)
+    .put(albumParamsValidation, albumValidation, auth, updateAlbum)
+    .delete(auth, deleteAlbum)
 
   return albumRouter
 }

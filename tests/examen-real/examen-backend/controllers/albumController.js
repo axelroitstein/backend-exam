@@ -29,6 +29,9 @@ export const albumController = () => {
       const albums = await prisma.albums.findMany({
         where: {
           deletedAt: null
+        },
+        include: {
+          songs: true
         }
       })
       return res.status(httpStatus.OK).json(albums)

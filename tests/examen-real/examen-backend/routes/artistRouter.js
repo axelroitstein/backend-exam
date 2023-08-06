@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { artistController } from '../controllers/artistController.js'
+import { artistValidation, artistParamsValidation } from '../middlewares/validations.js'
+import { auth } from '../middlewares/roleAuth.js'
 
 export const artistRoutes = () => {
   const artistRouter = Router()
@@ -7,12 +9,12 @@ export const artistRoutes = () => {
 
   artistRouter.route('/artists')
     .get(getArtists)
-    .post(createArtist)
+    .post(artistValidation, auth, createArtist)
 
-  artistRouter.route('/songs/:id')
+  artistRouter.route('/artists/:id')
     .get(getArtistById)
-    .put(updateArtist)
-    .delete(deleteArtist)
+    .put(artistParamsValidation, artistValidation, auth, updateArtist)
+    .delete(auth, deleteArtist)
 
   return artistRouter
 }

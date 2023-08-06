@@ -14,7 +14,7 @@ model Songs {
   id          Int      @id @default(autoincrement())
   artistId    Int      @map("artist_id")
   artist      Artists  @relation(fields: [artistId], references: [id])
-  album       Albums[]
+  albums      Albums[]
   name        String
   genre       String
   duration    Int
@@ -28,9 +28,9 @@ model Songs {
 
 model Artists {
   id          Int      @id @default(autoincrement())
-  name        String
-  song        Songs[]
-  album       Albums[]
+  name        String   @unique
+  songs       Songs[]
+  albums      Albums[]
   nationality String
   createdAt   DateTime @default(now())  @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -44,7 +44,7 @@ model Albums {
   name        String
   artistId    Int @map("artist_id") 
   artist      Artists  @relation(fields: [artistId], references: [id])
-  song        Songs[]
+  songs       Songs[]
   releaseDate DateTime @map("release_date")
   createdAt   DateTime @default(now())  @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -60,7 +60,8 @@ model Users {
   email     String     @unique
   password  String
   birthday  DateTime
-  song      Songs[]
+  role      String     @default("USER")  
+  favSongs  Songs[]
   createdAt DateTime   @default(now())  @map("created_at")
   updatedAt DateTime   @updatedAt @map("updated_at")
   deletedAt DateTime?   @map("deleted_at")
