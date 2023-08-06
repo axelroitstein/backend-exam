@@ -11,7 +11,7 @@ export const userRoutes = () => {
     .get(auth, getUsers)
 
   userRouter.route('/users/:id')
-    .get(getUserById)
+    .get(auth, getUserById)
     .put(userParamsValidation, userValidation, updateUser)
     .delete(deleteUser)
 
