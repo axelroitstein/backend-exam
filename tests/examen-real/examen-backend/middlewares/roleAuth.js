@@ -12,7 +12,7 @@ export const auth = (req, res, next) => {
   const adminRole = 'ADMIN'
 
   if (role !== adminRole) {
-    res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: 'You are not authorized to access this resource' })
+    return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: 'You are not authorized to access this resource' })
   }
   next()
 }

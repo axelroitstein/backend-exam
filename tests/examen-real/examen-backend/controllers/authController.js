@@ -42,6 +42,7 @@ export const authController = () => {
       await prisma.$disconnect()
     }
   }
+
   const refresh = async (req, res, next) => {
     try {
       const { refreshToken } = req.body
