@@ -1,7 +1,6 @@
 import httpStatus from '../helpers/httpStatus.js'
 import { PrismaClient } from '@prisma/client'
 import addSoftDelete from '../middlewares/softDelete.js'
-
 const prisma = new PrismaClient()
 
 export const albumController = () => {
@@ -11,7 +10,13 @@ export const albumController = () => {
       await prisma.albums.create({
         data: {
           name,
-          releaseDate
+          releaseDate: new Date(releaseDate),
+          songs: { create: [{ artistId: 6, name: 'Amerika', genre: 'metal', duration: 226 }] },
+          artist: {
+            connect: {
+              id: 6
+            }
+          }
         }
       })
       return res
@@ -31,7 +36,8 @@ export const albumController = () => {
           deletedAt: null
         },
         include: {
-          songs: true
+          songs: true,
+          artist: true
         }
       })
       return res.status(httpStatus.OK).json(albums)
@@ -49,6 +55,10 @@ export const albumController = () => {
         where: {
           id: Number(id),
           deletedAt: null
+        },
+        include: {
+          songs: true,
+          artist: true
         }
       })
       return res.status(httpStatus.OK).json(album)
@@ -63,13 +73,16 @@ export const albumController = () => {
     try {
       const { id } = req.params
       const { name, releaseDate } = req.body
-      await prisma.album.update({
+      await prisma.albums.update({
         where: {
           id: Number(id)
         },
         data: {
           name,
-          releaseDate
+          releaseDate: new Date(releaseDate),
+          songs: {
+            connect: [{ id: '' }]
+          }
         }
       })
       return res

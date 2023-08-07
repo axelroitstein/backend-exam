@@ -6,12 +6,18 @@ const prisma = new PrismaClient()
 export const songController = () => {
   const createSong = async (req, res, next) => {
     try {
-      const { name, genre, duration } = req.body
+      const { artistId, name, genre, duration } = req.body
       await prisma.songs.create({
         data: {
+          artistId,
           name,
           genre,
-          duration
+          duration,
+          artist: {
+            connect: {
+              id: 1
+            }
+          }
         }
       })
       return res
@@ -50,6 +56,10 @@ export const songController = () => {
         where: {
           id: Number(id),
           deletedAt: null
+        },
+        include: {
+          albums: true,
+          userFav: true
         }
       })
       return res.status(httpStatus.OK).json(song)
@@ -71,7 +81,10 @@ export const songController = () => {
         data: {
           name,
           genre,
-          duration
+          duration,
+          albums: {
+            connect: [{ id: '' }]
+          }
         }
       })
       return res

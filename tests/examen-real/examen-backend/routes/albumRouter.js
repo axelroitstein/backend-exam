@@ -7,11 +7,11 @@ export const albumRoutes = () => {
   const albumRouter = Router()
   const { createAlbum, getAlbums, getAlbumById, updateAlbum, deleteAlbum } = albumController()
 
-  albumRouter.route('/artists')
+  albumRouter.route('/albums')
     .get(getAlbums)
     .post(albumValidation, auth, createAlbum)
 
-  albumRouter.route('/songs/:id')
+  albumRouter.route('/albums/:id')
     .get(getAlbumById)
     .put(albumParamsValidation, albumValidation, auth, updateAlbum)
     .delete(auth, deleteAlbum)

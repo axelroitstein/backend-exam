@@ -33,6 +33,9 @@ export const userController = () => {
       const users = await prisma.users.findMany({
         where: {
           deletedAt: null
+        },
+        include: {
+          favSongs: true
         }
       })
       return res.status(httpStatus.OK).json(users)
@@ -50,6 +53,9 @@ export const userController = () => {
         where: {
           id: Number(id),
           deletedAt: null
+        },
+        include: {
+          favSongs: true
         }
       })
       return res.status(httpStatus.OK).json(user)
@@ -75,7 +81,10 @@ export const userController = () => {
           lastName,
           email,
           password: hashedPassword,
-          birthday: new Date(birthday)
+          birthday: new Date(birthday),
+          favSongs: {
+            connect: [{ id: 15 }]
+          }
         }
       })
       return res.status(httpStatus.OK).json({ success: true, message: 'User successfully updated' })

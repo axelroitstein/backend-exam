@@ -10,7 +10,9 @@ export const artistController = () => {
       await prisma.artists.create({
         data: {
           name,
-          nationality
+          nationality,
+          songs: { create: [{ name: 'Bohemian Rhapsody', genre: 'Rock', duration: 354 }, { name: 'Love Of My Life', genre: 'Rock', duration: 217 }] },
+          albums: { create: [{ name: 'A night at the opera', releaseDate: new Date('1975-11-21') }] }
         }
       })
       return res
@@ -49,6 +51,10 @@ export const artistController = () => {
         where: {
           id: Number(id),
           deletedAt: null
+        },
+        include: {
+          songs: true,
+          albums: true
         }
       })
       return res.status(httpStatus.OK).json(artist)
@@ -69,7 +75,9 @@ export const artistController = () => {
         },
         data: {
           name,
-          nationality
+          nationality,
+          songs: { create: [{ name: '', genre: '', duration: '' }, { name: '', genre: '', duration: '' }] },
+          albums: { create: [{ name: '', releaseDate: new Date('') }] }
         }
       })
       return res
