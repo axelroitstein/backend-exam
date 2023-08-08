@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { userController } from '../controllers/userController.js'
 import { userValidation, userParamsValidation } from '../middlewares/validations.js'
-import { auth } from '../middlewares/roleAuth.js'
+import { auth, userAuth } from '../middlewares/roleAuth.js'
 export const userRoutes = () => {
   const userRouter = Router()
   const { createUser, getUsers, getUserById, updateUser, deleteUser } = userController()
@@ -12,8 +12,8 @@ export const userRoutes = () => {
 
   userRouter.route('/users/:id')
     .get(auth, getUserById)
-    .put(userParamsValidation, userValidation, updateUser)
-    .delete(deleteUser)
+    .put(userParamsValidation, userValidation, userAuth, updateUser)
+    .delete(auth, deleteUser)
 
   return userRouter
 }

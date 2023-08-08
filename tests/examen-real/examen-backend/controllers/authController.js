@@ -26,12 +26,14 @@ export const authController = () => {
 
       const token = jwt.sign({
         name: user.firstName,
-        role: user.role
+        role: user.role,
+        id: user.id
       }, process.env.SECRET_KEY, { expiresIn: '2m' })
 
       const refreshToken = jwt.sign({
         name: user.firstName,
-        role: user.role
+        role: user.role,
+        id: user.id
       }, process.env.SECRET_REFRESH_KEY, { expiresIn: '30m' })
       return res.status(httpStatus.OK).json({
         message: 'login successful', token, refreshToken

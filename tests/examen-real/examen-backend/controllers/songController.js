@@ -15,7 +15,7 @@ export const songController = () => {
           duration,
           artist: {
             connect: {
-              id: 1
+              id: 11
             }
           }
         }
@@ -81,10 +81,10 @@ export const songController = () => {
         data: {
           name,
           genre,
-          duration,
-          albums: {
-            connect: [{ id: '' }]
-          }
+          duration
+          // albums: {
+          //   connect: [{ id: '' }]
+          // }
         }
       })
       return res

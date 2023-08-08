@@ -11,10 +11,10 @@ export const albumController = () => {
         data: {
           name,
           releaseDate: new Date(releaseDate),
-          songs: { create: [{ artistId: 6, name: 'Amerika', genre: 'metal', duration: 226 }] },
+          songs: { create: [{ artistId: 1, name: 'Bad', genre: 'Pop', duration: 247 }] },
           artist: {
             connect: {
-              id: 6
+              id: 1
             }
           }
         }
@@ -81,7 +81,7 @@ export const albumController = () => {
           name,
           releaseDate: new Date(releaseDate),
           songs: {
-            connect: [{ id: '' }]
+            connect: [{ id: 10 }, { id: 11 }]
           }
         }
       })

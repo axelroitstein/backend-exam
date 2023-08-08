@@ -11,8 +11,8 @@ export const artistController = () => {
         data: {
           name,
           nationality,
-          songs: { create: [{ name: 'Bohemian Rhapsody', genre: 'Rock', duration: 354 }, { name: 'Love Of My Life', genre: 'Rock', duration: 217 }] },
-          albums: { create: [{ name: 'A night at the opera', releaseDate: new Date('1975-11-21') }] }
+          songs: { create: [{ name: 'Paint It, Black', genre: 'Rock', duration: 202 }] },
+          albums: { create: [{ name: 'Aftermath', releaseDate: new Date('1966-04-15') }] }
         }
       })
       return res
@@ -76,8 +76,8 @@ export const artistController = () => {
         data: {
           name,
           nationality,
-          songs: { create: [{ name: '', genre: '', duration: '' }, { name: '', genre: '', duration: '' }] },
-          albums: { create: [{ name: '', releaseDate: new Date('') }] }
+          songs: { create: [{ name: 'Dont stop me now', genre: 'Rock', duration: 209 }] },
+          albums: { create: [{ name: 'Jazz', releaseDate: new Date('1978-11-10') }] }
         }
       })
       return res
